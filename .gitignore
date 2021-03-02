@@ -1,0 +1,14 @@
+#ignore folder
+
+.vs/
+out/
+source/
+build_debug/
+build_release/
+
+#ignore dll and lib
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.exe
