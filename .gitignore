@@ -5,6 +5,7 @@ out/
 source/
 build_debug/
 build_release/
+build/
 
 #ignore dll and lib
 *.dll
