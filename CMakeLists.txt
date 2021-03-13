@@ -24,6 +24,8 @@ add_executable(TSUBAKI
 ./src/component/material.cpp
 ./src/component/mesh.cpp
 ./src/component/shader.cpp
+./src/component/object.cpp
+./src/component/transform.cpp
 )   
 
 target_include_directories(TSUBAKI PRIVATE ./include/)
