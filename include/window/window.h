@@ -28,6 +28,8 @@ public:
 
     void UpdateStatus();
 
+    void SwapBuffer();
+    
     bool IsInit();
 
     unsigned long long int GetCurrFrameCount();

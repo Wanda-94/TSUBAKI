@@ -1,7 +1,6 @@
 #ifndef __TSUBAKI_CONFIG__
 #define __TSUBAKI_CONFIG__
 
-
 const unsigned int OPENGL_MAJOR_VERSION = 4;
 
 const unsigned int OPENGL_MINOR_VERSION = 5;

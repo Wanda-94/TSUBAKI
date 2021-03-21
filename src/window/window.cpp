@@ -40,7 +40,6 @@ end:
 
 void Window::SetAsCurrentWindow()
 {
-
     if(IsInit()&&window!=nullptr)
     {
 
@@ -82,11 +81,17 @@ void Window::UpdateFrame(float R,float G,float B,float A)
 
         glClear(GL_COLOR_BUFFER_BIT);
 
+    }
+
+}
+void Window::SwapBuffer()
+{
+    if(IsInit())
+    {
+        
         if(window!=nullptr)
         {
-
             glfwSwapBuffers(window);
-
         }
 
         glfwPollEvents();
@@ -94,7 +99,6 @@ void Window::UpdateFrame(float R,float G,float B,float A)
     }
 
 }
-
 void Window::UpdateStatus()
 {
 

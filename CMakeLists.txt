@@ -16,16 +16,23 @@ project(TSUBAKI)
 add_executable(TSUBAKI 
 ./src/main.cpp 
 ./3rdpart/GLAD/src/glad.c
+
 ./src/utility/config.cpp
 ./src/utility/basic.cpp
 ./src/utility/initializer.cpp
 ./src/utility/renderer.cpp
+./src/utility/controller.cpp
+./src/utility/importer.cpp
+./src/utility/TBK/TBKbase.cpp
+
 ./src/window/window.cpp
+
 ./src/component/material.cpp
 ./src/component/mesh.cpp
 ./src/component/shader.cpp
 ./src/component/object.cpp
 ./src/component/transform.cpp
+./src/component/camera.cpp
 )   
 
 target_include_directories(TSUBAKI PRIVATE ./include/)
