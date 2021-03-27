@@ -26,7 +26,7 @@ struct TBKVector2f{
     float x;
     float y;
     TBKVector2f(){x = 0.0f; y = 0.0f;}
-    TBKVector2f(int ix,int iy):x(ix),y(iy){}
+    TBKVector2f(float ix,float iy):x(ix),y(iy){}
 };
 
 struct TBKVector3f{
@@ -34,7 +34,7 @@ struct TBKVector3f{
     float y;
     float z;
     TBKVector3f(){x = 0.0f; y = 0.0f; z = 0.0f;}
-    TBKVector3f(int ix,int iy,int iz):x(ix),y(iy),z(iz){}
+    TBKVector3f(float ix,float iy,float iz):x(ix),y(iy),z(iz){}
 };
 
 struct TBKMesh{

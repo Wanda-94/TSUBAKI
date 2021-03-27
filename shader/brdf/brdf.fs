@@ -7,5 +7,5 @@ in vec2 vs_uv;
 
 void main()
 {
-    frag_color = vec4(0.0f,1.0f,1.0f,1.0f);
+    frag_color = vec4(vs_normal,1.0f);
 }

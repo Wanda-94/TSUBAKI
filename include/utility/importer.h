@@ -11,6 +11,7 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <component/mesh.h>
+#include <component/texture.h>
 //v n 
 
 
@@ -30,6 +31,8 @@ public:
     //convert tbk scene to engine class
     static unsigned int GetMeshNumFromTBKScene(const TBKScene* scene);
     static Mesh* GetMeshFromTBKScene(TBKScene* scene,unsigned int index);
+    //import texture
+    static Texture* LoadTexture(const std::string& path);
 private:
     
 };

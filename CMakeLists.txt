@@ -33,6 +33,10 @@ add_executable(TSUBAKI
 ./src/component/object.cpp
 ./src/component/transform.cpp
 ./src/component/camera.cpp
+./src/component/light.cpp
+./src/component/texture.cpp
+
+./src/hardware/interface.cpp
 )   
 
 target_include_directories(TSUBAKI PRIVATE ./include/)

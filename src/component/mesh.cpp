@@ -43,5 +43,5 @@ void Mesh::DrawToHardware()
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,0);
     glBindVertexArray(0);
-    std::cout<<"draw mesh : "<<this->label<<std::endl;
+    //std::cout<<"draw mesh : "<<this->label<<std::endl;
 }

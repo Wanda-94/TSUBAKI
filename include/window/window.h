@@ -20,11 +20,11 @@ extern const char WINDOW_TITLE[];
 class Window{
 public:
 
-    Window();
+    static Window* GetWindowInstance();
 
     void SetAsCurrentWindow();
 
-    void UpdateFrame(float R=0.0f,float G=0.0f,float B=0.0f,float A=1.0f);
+    void RefreshFrame(float R=0.0f,float G=0.0f,float B=0.0f,float A=1.0f);
 
     void UpdateStatus();
 
@@ -36,12 +36,20 @@ public:
 
     double GetCurrDeltaTime();
 
+    void SetDepthTest(bool flag);
+    
     void CloseWindow();
+
+    bool IsPressKey(int key);
+
+    void GetMouseMove(float& mouse_move_x,float& mouse_move_y);
 
     virtual ~Window();    
 
 private:
+    Window();
 
+    static Window* window_instance;
 
     GLFWwindow* window;
 
@@ -52,6 +60,8 @@ private:
     double render_time;
 
     double delta_time;
+
+    double mouse_center_x,mouse_center_y,mouse_x,mouse_y;
 
 };
 

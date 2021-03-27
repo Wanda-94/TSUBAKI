@@ -1,7 +1,7 @@
 #include <component/shader.h>
 
 void ShaderCompiler::checkCompileErrors(unsigned int shader, std::string type)
-	{
+{
 		GLint success;
 		GLchar infoLog[1024];
 		if (type != "PROGRAM")
@@ -22,7 +22,7 @@ void ShaderCompiler::checkCompileErrors(unsigned int shader, std::string type)
 				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 			}
 		}
-	}
+}
 unsigned int ShaderCompiler::CreateShader(const std::string label,const std::string dir_name)
 {
 		unsigned int id;
@@ -87,7 +87,7 @@ unsigned int ShaderCompiler::CreateShader(const std::string label,const std::str
 			glDeleteShader(fragment);
 		}
 		return id;
-	}
+}
 
 Shader::Shader(const std::string label,const std::string shader_path)
 {
@@ -104,7 +104,26 @@ void Shader::UseShader()
 	glUseProgram(shader_ref);
 }
 
-void Shader::SetUniformMatrix4x4(const std::string& name,const Eigen::Matrix4f& matrix4x4)
+void Shader::SetUniformMatrix4x4(const std::string& name,const Eigen::Matrix4f& matrix4x4) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(shader_ref, name.c_str()), 1, GL_FALSE, matrix4x4.data());
+}
+
+void Shader::SetUniformBool(const std::string& name,const bool value) const
+{
+	glUniform1i(glGetUniformLocation(shader_ref,name.c_str()),value);
+}
+
+void Shader::SetUniformFloat(const std::string& name,const float value) const
+{
+	glUniform1f(glGetUniformLocation(shader_ref,name.c_str()),value);
+}
+void Shader::SetUniformInt(const std::string& name,const int value) const 
+{
+	glUniform1i(glGetUniformLocation(shader_ref,name.c_str()),value);
+}
+
+void Shader::SetUniformVec3(const std::string& name,const Eigen::Vector3f& value) const
+{
+	glUniform3fv(glGetUniformLocation(shader_ref,name.c_str()),1,value.data());
 }

@@ -56,6 +56,7 @@ end:
     else{
         is_init = true;
     }
+    
 }
 
 bool Initializer::IsInit()

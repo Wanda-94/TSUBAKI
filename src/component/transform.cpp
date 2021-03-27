@@ -2,31 +2,31 @@
 
 Transform::Transform()
 {
-    location = Eigen::Vector3f(0.0f,0.0f,0.0f);
-    scale = Eigen::Vector3f(1.0f,1.0f,1.0f);
-    rotation = Eigen::Quaternionf(1.0f,0.0f,0.0f,0.0f);
+    this->location = Eigen::Vector3f(0.0f,0.0f,0.0f);
+    this->scale = Eigen::Vector3f(1.0f,1.0f,1.0f);
+    this->rotation = Eigen::Quaternionf(1.0f,0.0f,0.0f,0.0f);
     UpdateTransformMatrix();
 }
 Transform::Transform(const Transform& t)
 {
-    location = t.GetLocation();
-    scale = t.GetScale();
-    rotation = t.GetRotaion();
+    this->location = t.GetLocation();
+    this->scale = t.GetScale();
+    this->rotation = t.GetRotaion();
     UpdateTransformMatrix();
 }
 Transform& Transform::operator=(const Transform& t)
 {
-    location = t.GetLocation();
-    scale = t.GetScale();
-    rotation = t.GetRotaion();
+    this->location = t.GetLocation();
+    this->scale = t.GetScale();
+    this->rotation = t.GetRotaion();
     UpdateTransformMatrix();
     return (*this);
 }
 Transform::Transform(const Eigen::Vector3f& init_location,const Eigen::Quaternionf& init_rotation,const Eigen::Vector3f& init_scale)
 {
-    location = init_location;
-    rotation = init_rotation;
-    scale = init_scale;
+    this->location = init_location;
+    this->rotation = init_rotation;
+    this->scale = init_scale;
     UpdateTransformMatrix();
 }
 Transform::~Transform()
@@ -35,69 +35,69 @@ Transform::~Transform()
 }
 void Transform::SetLocation(const Eigen::Vector3f& new_location)
 {
-    location = new_location;
+    this->location = new_location;
     UpdateTransformMatrix();
 }
 void Transform::SetRotation(const Eigen::Quaternionf& new_rotation)
 {
-    rotation = new_rotation;
+    this->rotation = new_rotation;
     UpdateTransformMatrix();
 }
 void Transform::SetScale(const Eigen::Vector3f& new_scale)
 {
-    scale = new_scale;
+    this->scale = new_scale;
     UpdateTransformMatrix();
 }
 void Transform::SetTransformMatrix(const Eigen::Matrix4f& new_transform_matrix)
 {
-    transform_matrix = new_transform_matrix;
+    this->transform_matrix = new_transform_matrix;
     UpdateStatus();
 }
 Eigen::Vector3f Transform::GetLocation() const
 {
-    return location;
+    return this->location;
 }
 Eigen::Quaternionf Transform::GetRotaion() const
 {
-    return rotation;
+    return this->rotation;
 }
 Eigen::Vector3f Transform::GetScale() const
 {
-    return scale;
+    return this->scale;
 }
 Eigen::Matrix4f Transform::GetTransformMatrix() const
 {
-    return transform_matrix;
+    return this->transform_matrix;
 }
 void Transform::UpdateTransformMatrix()
 {
-    Eigen::Matrix3f rotation_matrix = rotation.toRotationMatrix();
-    transform_matrix(0,0) = rotation_matrix(0,0)*scale[0];
-    transform_matrix(1,0) = rotation_matrix(1,0)*scale[0];
-    transform_matrix(2,0) = rotation_matrix(2,0)*scale[0];
-    transform_matrix(0,1) = rotation_matrix(0,1)*scale[1];
-    transform_matrix(1,1) = rotation_matrix(1,1)*scale[1];
-    transform_matrix(2,1) = rotation_matrix(2,1)*scale[1];
-    transform_matrix(0,2) = rotation_matrix(0,2)*scale[2];
-    transform_matrix(1,2) = rotation_matrix(1,2)*scale[2];
-    transform_matrix(2,2) = rotation_matrix(2,2)*scale[2];
-    transform_matrix(0,3) = location[0];
-    transform_matrix(1,3) = location[1];
-    transform_matrix(2,3) = location[2];
-    transform_matrix(3,0) = 0.0f;
-    transform_matrix(3,1) = 0.0f;
-    transform_matrix(3,2) = 0.0f;
-    transform_matrix(3,3) = 1.0f;
+    Eigen::Matrix3f rotation_matrix = this->rotation.toRotationMatrix();
+    this->transform_matrix(0,0) = rotation_matrix(0,0)*this->scale[0];
+    this->transform_matrix(1,0) = rotation_matrix(1,0)*this->scale[0];
+    this->transform_matrix(2,0) = rotation_matrix(2,0)*this->scale[0];
+    this->transform_matrix(0,1) = rotation_matrix(0,1)*this->scale[1];
+    this->transform_matrix(1,1) = rotation_matrix(1,1)*this->scale[1];
+    this->transform_matrix(2,1) = rotation_matrix(2,1)*this->scale[1];
+    this->transform_matrix(0,2) = rotation_matrix(0,2)*this->scale[2];
+    this->transform_matrix(1,2) = rotation_matrix(1,2)*this->scale[2];
+    this->transform_matrix(2,2) = rotation_matrix(2,2)*this->scale[2];
+    this->transform_matrix(0,3) = this->location[0];
+    this->transform_matrix(1,3) = this->location[1];
+    this->transform_matrix(2,3) = this->location[2];
+    this->transform_matrix(3,0) = 0.0f;
+    this->transform_matrix(3,1) = 0.0f;
+    this->transform_matrix(3,2) = 0.0f;
+    this->transform_matrix(3,3) = 1.0f;
 }
 void Transform::UpdateStatus()
 {
-    location[0] = transform_matrix(0,3);
-    location[1] = transform_matrix(1,3);
-    location[2] = transform_matrix(2,3);
+    this->location[0] = this->transform_matrix(0,3);
+    this->location[1] = this->transform_matrix(1,3);
+    this->location[2] = this->transform_matrix(2,3);
 
-    scale[0] = sqrtf(transform_matrix(0,0)*transform_matrix(0,0)+transform_matrix(1,0)*transform_matrix(1,0)+transform_matrix(2,0)*transform_matrix(2,0));
-    scale[1] = sqrtf(transform_matrix(0,1)*transform_matrix(0,1)+transform_matrix(1,1)*transform_matrix(1,1)+transform_matrix(2,1)*transform_matrix(2,1));
-    scale[2] = sqrtf(transform_matrix(0,2)*transform_matrix(0,2)+transform_matrix(1,2)*transform_matrix(1,2)+transform_matrix(2,2)*transform_matrix(2,2));
+    this->scale[0] = sqrtf(transform_matrix(0,0)*transform_matrix(0,0)+transform_matrix(1,0)*transform_matrix(1,0)+transform_matrix(2,0)*transform_matrix(2,0));
+    this->scale[1] = sqrtf(transform_matrix(0,1)*transform_matrix(0,1)+transform_matrix(1,1)*transform_matrix(1,1)+transform_matrix(2,1)*transform_matrix(2,1));
+    this->scale[2] = sqrtf(transform_matrix(0,2)*transform_matrix(0,2)+transform_matrix(1,2)*transform_matrix(1,2)+transform_matrix(2,2)*transform_matrix(2,2));
 
     float s0i = 1.0f/scale[0];
     float s1i = 1.0f/scale[1];

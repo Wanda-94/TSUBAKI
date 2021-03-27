@@ -346,3 +346,12 @@ Mesh* Importer::GetMeshFromTBKScene(TBKScene* scene,unsigned int index)
     return mesh;
 }
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
+Texture* Importer::LoadTexture(const std::string& path)
+{
+    std::cout<<"load texture form : "+path<<std::endl;
+    Texture* texture = new Texture();
+    return new Texture();
+}
