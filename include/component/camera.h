@@ -22,6 +22,7 @@ public:
     void SetRotation(const Eigen::Quaternionf& new_rotation);
     void SetSize(const float new_size);
     void SetMoveSpeed(float new_move_speed);
+    void SetAsCurrCamera();
     float GetMoveSpeed();
     Eigen::Vector3f GetLocation() const;
     Eigen::Quaternionf GetRotation() const;

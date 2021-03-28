@@ -5,14 +5,40 @@
 
 class Texture{
     public:
-    Texture();
+    Texture(const std::string& init_label,
+    unsigned char* init_data,
+    const int init_width,
+    const int init_height,
+    const int init_channels);
     ~Texture();
+    void* GetData();
+    void ActiveTexture(int active_texture_index = 0);
     private:
+    void GenGLTexture(int repeat_pattern = GL_REPEAT,int mag_filter_pattern = GL_LINEAR,int min_filter_pattern = GL_LINEAR_MIPMAP_LINEAR);
+    unsigned int TBO;
     int width;
     int height;
-    int channel;
+    int channels;
     DataType data_type;
+    DataFormatType data_format;
     void* data;
+    std::string label;
 };
-
+const int ChannelsToDataFormat[5] = {
+    -1,
+    0,
+    -1,
+    1,
+    2
+};
+const int DataFormatToGLFormat[3] = {
+    GL_R8UI,
+    GL_RGB8UI,
+    GL_RGBA8UI
+};
+const int DataFormatToExternalFormat[3] ={
+    GL_RED,
+    GL_RGB,
+    GL_RGBA
+};
 #endif

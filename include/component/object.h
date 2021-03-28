@@ -30,13 +30,30 @@ public:
     void SetLocation(const Eigen::Vector3f& new_location);
     void SetRotation(const Eigen::Quaternionf& new_rotation);
     void SetScale(const Eigen::Vector3f& new_scale);
+
+    void AttachToParent(Object* new_parent);
+    void DetachFromParent();
+    Object* GetParent();
+    void AddChild(Object* new_child);
+    void RemoveChild(Object* rm_child);
+    int GetChildNum();
+    Object* GetChild(int index);
+
 protected:
 
 private:
+    void UpdateLocalMatrix();
+    void UpdateChilds();
+    void UpdateChilds(const Eigen::Matrix4f& parent_curr_transform_matrix);
+
+
     unsigned int ID;
     std::string name;
     ObjectType type;
     Transform* transform;
+    Eigen::Matrix4f local_matrix;
+    Object* parent;
+    std::vector<Object*> childs;
 };
 
 

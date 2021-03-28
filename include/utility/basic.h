@@ -28,6 +28,7 @@ enum class ObjectType{
     OBJECT,
     DIRECTIONAL_LIGHT,
     POINT_LIGHT,
+    AMBIENT_LIGHT,
     CAMERA,
     ACTOR
 };
@@ -48,5 +49,12 @@ enum class DataType{
     DOUBLE,
     STRING
 };
+
+enum class DataFormatType{
+    R_UC = 0,
+    RGB_UC = 1,
+    RGBA_UC = 2
+};
+
 
 #endif

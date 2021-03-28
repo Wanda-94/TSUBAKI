@@ -349,9 +349,20 @@ Mesh* Importer::GetMeshFromTBKScene(TBKScene* scene,unsigned int index)
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-Texture* Importer::LoadTexture(const std::string& path)
+Texture* Importer::LoadTexture(const std::string& label,const std::string& path)
 {
     std::cout<<"load texture form : "+path<<std::endl;
-    Texture* texture = new Texture();
-    return new Texture();
+
+    int texture_width,texture_height,texture_channels;
+    
+    unsigned char* data_ptr = stbi_load(path.c_str(),&texture_width,&texture_height,&texture_channels,0);
+
+    Texture* texture = new Texture(label,data_ptr,texture_width,texture_height,texture_channels);
+    
+    return texture;
+}
+
+void Importer::FreeTexture(Texture* texture)
+{
+    stbi_image_free(texture->GetData());
 }

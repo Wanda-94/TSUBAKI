@@ -14,6 +14,7 @@ struct DirLight{
 struct PointLight{
     vec3 location;
     vec3 color;
+    float attenuation;
 };
 
 in vec3 vs_position;
@@ -176,7 +177,7 @@ void main()
 
     for(int i=0;i<dir_light_num;i++)
     {
-        vec3 light_vector = normalize(dir_light_array[i].dir - vs_position);
+        vec3 light_vector = normalize(-dir_light_array[i].dir);
         vec3 half_vector = normalize(view_vector + light_vector);
         vec3 radiance = dir_light_array[i].color;
 
@@ -202,9 +203,10 @@ void main()
         vec3 half_vector = normalize(view_vector + light_vector);
 
         float distance = length(point_light_array[i].location - vs_position);
-        float attenuation = 1.0f/(distance*distance);
+        float attenuation = point_light_array[i].attenuation;
+        attenuation = 10000.0f*attenuation/(distance*distance);
 
-        vec3 radiance = point_light_array[i].color * attenuation;
+        vec3 radiance = point_light_array[i].color * attenuation ;
 
         float NDF = DistributionGGX(normal_,half_vector,roughness_);
         float G = GeometrySmith(normal_,view_vector,light_vector,roughness_);

@@ -37,6 +37,8 @@ add_executable(TSUBAKI
 ./src/component/texture.cpp
 
 ./src/hardware/interface.cpp
+
+./src/gamebase/actor.cpp
 )   
 
 target_include_directories(TSUBAKI PRIVATE ./include/)

@@ -13,10 +13,12 @@ Mesh::Mesh(const std::string& init_label,
 }
 Mesh::~Mesh()
 {
-
+    glDeleteVertexArrays(1,&VAO);
+    glDeleteBuffers(1,&VBO);
+    glDeleteBuffers(1,&EBO);
 }
 
-void Mesh::DrawMesh()
+void Mesh::DrawMesh() const
 {
     DrawToHardware();
 }
@@ -38,7 +40,7 @@ void Mesh::BindToHardware()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(unsigned int)*indices.size(),&(indices[0]),GL_STATIC_DRAW);
     glBindVertexArray(0);
 }
-void Mesh::DrawToHardware()
+void Mesh::DrawToHardware() const
 {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,0);

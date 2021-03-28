@@ -42,11 +42,10 @@ public:
     const std::vector<unsigned int>& init_indices
     );
     ~Mesh();
-    void SetMaterial(Material* new_material);
-    void DrawMesh();
+    void DrawMesh() const;
 private:
     void BindToHardware();
-    void DrawToHardware();
+    void DrawToHardware() const;
     std::string label;
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;

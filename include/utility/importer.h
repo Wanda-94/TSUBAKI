@@ -32,7 +32,8 @@ public:
     static unsigned int GetMeshNumFromTBKScene(const TBKScene* scene);
     static Mesh* GetMeshFromTBKScene(TBKScene* scene,unsigned int index);
     //import texture
-    static Texture* LoadTexture(const std::string& path);
+    static Texture* LoadTexture(const std::string& label,const std::string& path);
+    static void FreeTexture(Texture* texture);
 private:
     
 };

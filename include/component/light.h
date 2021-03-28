@@ -35,10 +35,23 @@ public:
     PointLight(const std::string& init_name);
     ~PointLight();
     Eigen::Vector3f GetLightColor() const;
+    float GetAttenuation() const;
+    void SetLightColor(const Eigen::Vector3f& new_light_color);
+    void SetAttenuation(float new_attenuation);
+private:
+    Eigen::Vector3f light_color;
+    float attenuation;
+};
+
+class AmbientLight : public LightBase{
+public:
+    AmbientLight();
+    AmbientLight(const std::string& init_name);
+    ~AmbientLight();
+    Eigen::Vector3f GetLightColor() const;
     void SetLightColor(const Eigen::Vector3f& new_light_color);
 private:
     Eigen::Vector3f light_color;
 };
-
 
 #endif

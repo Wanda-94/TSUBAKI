@@ -5,6 +5,7 @@ Camera::Camera():near(1.0f),far(10000.0f),size(1.0f),move_speed(10.0f),Object(Ob
     ratio = (WINDOW_WIDTH)/((float)WINDOW_HEIGHT);
     UpdateToLocalMatrix();
     UpdateProjectionMatrix();
+    Controller::InsertCamera(GetObjectID());
 }
 
 Camera::Camera(const std::string& init_name):near(1.0f),far(10000.0f),size(1.0f),Object(init_name,ObjectType::CAMERA)
@@ -12,11 +13,12 @@ Camera::Camera(const std::string& init_name):near(1.0f),far(10000.0f),size(1.0f)
     ratio = (WINDOW_WIDTH)/((float)WINDOW_HEIGHT);
     UpdateToLocalMatrix();
     UpdateProjectionMatrix();
+    Controller::InsertCamera(GetObjectID());
 }
 
 Camera::~Camera()
 {
-
+    Controller::RemoveCamera(GetObjectID());
 }
 
 void Camera::Update(float delta_time)
@@ -62,6 +64,11 @@ void Camera::SetRotation(const Eigen::Quaternionf& new_rotation)
 void Camera::SetMoveSpeed(float new_move_speed)
 {
     move_speed = new_move_speed;
+}
+
+void Camera::SetAsCurrCamera()
+{
+    Controller::SetCurrCamera(GetObjectID());
 }
 
 float Camera::GetMoveSpeed()
