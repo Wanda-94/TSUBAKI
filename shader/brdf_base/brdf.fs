@@ -56,7 +56,7 @@ uniform vec3 ambient_color;
 
 const float PI = 3.1415926;
 
-vec3 GetNormal()
+vec3 GetNormal(vec2 uv)
 {
     vec3 res;
     if(use_normal_texture == true)
@@ -70,15 +70,15 @@ vec3 GetNormal()
     }
     return res;
 }
-vec3 GetAlbedo()
+vec3 GetAlbedo(vec2 uv)
 {
     vec3 res;
     if(use_albedo_texture == true)
     {
         #ifdef CONVERT_SRGB
-            res =  pow(texture(albedo_texture,vs_uv).rgb,vec3(2.2));
+            res =  pow(texture(albedo_texture,uv).rgb,vec3(2.2));
         #else
-            res =  texture(albedo_texture,vs_uv).rgb;
+            res =  texture(albedo_texture,uv).rgb;
         #endif
     }
     else
@@ -87,12 +87,12 @@ vec3 GetAlbedo()
     }
     return res;
 }
-float GetMetallic()
+float GetMetallic(vec2 uv)
 {
     float res;
     if(use_metallic_texture == true)
     {
-        res = texture(metallic_texture,vs_uv).r;
+        res = texture(metallic_texture,uv).r;
     }
     else
     {
@@ -100,12 +100,12 @@ float GetMetallic()
     }
     return res;
 }
-float GetRoughness()
+float GetRoughness(vec2 uv)
 {
     float res;
     if(use_roughness_texture == true)
     {
-        res = texture(roughness_texture,vs_uv).r;
+        res = texture(roughness_texture,uv).r;
     }
     else
     {
@@ -165,10 +165,11 @@ vec3 GetAmbient()
 }
 void main()
 {
-    vec3 albedo_ = GetAlbedo();
-    vec3 normal_ = GetNormal();
-    float metallic_ = GetMetallic();
-    float roughness_ = GetRoughness();
+    vec2 uv = vec2(vs_uv.x,1.0f-vs_uv.y);
+    vec3 albedo_ = GetAlbedo(uv);
+    vec3 normal_ = GetNormal(uv);
+    float metallic_ = GetMetallic(uv);
+    float roughness_ = GetRoughness(uv);
 
     vec3 view_vector = normalize(view_position-vs_position);
     vec3 F0 = vec3(0.04f);
@@ -223,6 +224,7 @@ void main()
         float NdotL = max(dot(normal_,light_vector),0.0f);
 
         res_color += (kD*albedo_/PI +specular)*radiance*NdotL;
+
     }
 
     vec3 ambient = GetAmbient();

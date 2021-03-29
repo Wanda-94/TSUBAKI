@@ -34,7 +34,7 @@ void Mesh::BindToHardware()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(offsetof(Vertex,normal)));
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(offsetof(Vertex,uv_1)));
+    glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)(offsetof(Vertex,uv_1)));
     glGenBuffers(1,&EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(unsigned int)*indices.size(),&(indices[0]),GL_STATIC_DRAW);

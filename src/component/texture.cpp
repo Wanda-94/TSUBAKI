@@ -8,6 +8,7 @@ Texture::Texture(const std::string& init_label,
     const int init_channels):label(init_label),width(init_width),height(init_height),channels(init_channels)
 {
     this->data = init_data;
+    this->data_type = DataType::CHAR;
     this->data_format = (DataFormatType)(ChannelsToDataFormat[this->channels]);
     GenGLTexture();
 }
@@ -29,11 +30,13 @@ void Texture::GenGLTexture(int repeat_pattern,int mag_filter_pattern,int min_fil
     glBindTexture(GL_TEXTURE_2D,this->TBO);
     glTexImage2D(GL_TEXTURE_2D,
     0,
-    DataFormatToGLFormat[(int)(this->data_format)],
+    //DataFormatToGLFormat[(int)(this->data_format)],
+    GL_RGB,
     this->width,
     this->height,
     0,
-    DataFormatToExternalFormat[(int)(this->data_format)],
+    //DataFormatToExternalFormat[(int)(this->data_format)],
+    GL_RGB,
     GL_UNSIGNED_BYTE,
     this->data);
     glGenerateMipmap(GL_TEXTURE_2D);

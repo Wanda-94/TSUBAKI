@@ -8,7 +8,7 @@
 class Actor : public Object{
 public:
 
-    Actor(const Mesh* init_mesh,const Material* init_material);
+    Actor( Mesh* init_mesh, Material* init_material);
 
     // Mesh* GetMesh();
     // Mesh GetMeshCopy();
@@ -17,10 +17,10 @@ public:
     // Material GetMaterialCopy();
     // void SetMaterial(const Material* new_material);
     virtual ~Actor();
-    virtual void Update(float delta_time);
+    virtual void Update(float delta_time); 
 private:
-    const Mesh* mesh;
-    const Material* material;
+    Mesh* mesh;
+    Material* material;
 };
 
 #endif

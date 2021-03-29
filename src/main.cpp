@@ -10,6 +10,7 @@
 #include <component/camera.h>
 #include <component/light.h>
 #include <component/material.h>
+#include <gamebase/actor.h>
 
 int main(int argc,char** argv)
 {
@@ -20,9 +21,6 @@ int main(int argc,char** argv)
 	curr_window->SetAsCurrentWindow();
 	curr_window->SetDepthTest(true);
 
-	// Object* obj_1 = new Object();
-	// Object* obj_2 = new Object();
-	// Object* obj_3 = new Object();
 	Camera* camera_0 = new Camera();
 	camera_0->SetLocation(Eigen::Vector3f(10.0f,0.0f,100.0f));
 	camera_0->SetRotation(Eigen::Quaternionf(0.0f,0.0f,1.0f,0.0f));
@@ -38,58 +36,54 @@ int main(int argc,char** argv)
 	Camera* camera;
 
 
-	// Camera* camera = new Camera();
-	// camera->SetLocation(Eigen::Vector3f(0.0f,0.0f,1.0f));
-	// camera->SetRotation(Eigen::Quaternionf(0.0f,0.0f,1.0f,0.0f));
-	// camera->SetSize(1.0f);
-	// camera->SetMoveSpeed(100.0f);
-
-	// Camera* curr_camera = Controller::GetCurrCamera();
-
 	Shader* shader = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf_base");
 	
-	Material* material_0 = new Material("material_01",shader);
+	Material* material_0 = new Material("material_0",shader);
+	Material* material_1 = new Material("material_1",shader);
 
-	std::string TBKpath = "C:/WorkSpace/Asset/Model/tsubaki.tbk";
-	TBKScene* scene = new TBKScene();
-	Importer::LoadTBK(TBKpath,scene);
+	// std::string TBKpath = "C:/WorkSpace/Asset/Model/tsubaki.tbk";
+	// TBKScene* scene = new TBKScene();
+	// Importer::LoadTBK(TBKpath,scene);
 
-	std::vector<Mesh*> mesh_list;
+	// std::vector<Mesh*> mesh_list;
 
-	for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
-	{
-		mesh_list.push_back(Importer::GetMeshFromTBKScene(scene,i));
-	}
+	// for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
+	// {
+	// 	mesh_list.push_back(Importer::GetMeshFromTBKScene(scene,i));
+	// }
 
 	Vertex v1;
 	v1.SetPosition(-10.0f,0.0f,0.0f);
-	v1.SetUV(0.0f,1.0f);
+	v1.SetUV(0.0f,0.0f);
 	v1.SetNormal(0.0f,0.0f,1.0f);
 	Vertex v2;
 	v2.SetPosition(10.0f,0.0f,0.0f);
-	v2.SetUV(1.0f,1.0f);
+	v2.SetUV(1.0f,0.0f);
 	v2.SetNormal(0.0f,0.0f,1.0f);
 	Vertex v3;
 	v3.SetPosition(10.0f,10.0f,0.0f);
-	v3.SetUV(1.0f,0.0f);
+	v3.SetUV(1.0f,1.0f);
 	v3.SetNormal(0.0f,0.0f,1.0f);
 	Vertex v4;
 	v4.SetPosition(-10.0f,10.0f,0.0f);
-	v4.SetUV(0.0f,0.0f);
+	v4.SetUV(0.0f,1.0f);
 	v4.SetNormal(0.0f,0.0f,1.0f);
 	std::vector<Vertex> vertices({v1,v2,v3,v4});
 	std::vector<unsigned int> indices({0,1,2,0,2,3});
 	Mesh* quad = new Mesh("Quad",vertices,indices);
 
-	mesh_list.push_back(quad);
+	// mesh_list.push_back(quad);
 
-	Texture* texture_1 = Importer::LoadTexture("texture_1","C:/WorkSpace/Asset/Texture/re_miku.jpg");
+	Texture* texture_1 = Importer::LoadTexture("texture_1","C:/WorkSpace/Asset/Texture/miku.jpg");
+	material_1->AddTexture(TextureType::TEXTURE_ALBEDO,texture_1);
 
 	DirectionalLight* dir_light_0 = new DirectionalLight();
-	dir_light_0->SetLightDirection((Eigen::Vector3f(0.0f,0.0f,1.0f).normalized()));
+	dir_light_0->SetLightDirection((Eigen::Vector3f(1.0f,-1.0f,-1.0f).normalized()));
 	dir_light_0->SetLightColor(Eigen::Vector3f(1.0f,0.0f,0.0f));
 	PointLight* point_light_0 = new PointLight();
 	point_light_0->SetLightColor(Eigen::Vector3f(0.0f,0.0f,1.0f));
+	point_light_0->SetAttenuation(1.0f);
+	point_light_0->SetLocation(Eigen::Vector3f(0.0f,0.0f,1.0f));
 	//AmbientLight* ambient_light_0 = new AmbientLight();
 
 	Eigen::Matrix4f identity = Eigen::Matrix4f::Identity();
@@ -100,6 +94,12 @@ int main(int argc,char** argv)
 	Eigen::Affine3f transform = translation*rotation*scale;
 	Eigen::Matrix4f transform_matrix = transform.matrix();
 
+	Actor* actor_0 = new Actor(quad,material_1);
+	actor_0->SetScale(Eigen::Vector3f(0.5f,2.0f,1.0f));
+	Actor* actor_1 = new Actor(quad,material_0);
+	actor_1->SetTransformMatrix(transform_matrix);
+
+	camera_list[0]->SetAsCurrCamera();
 
 	while(curr_window->GetCurrFrameCount()<100000)
 	{
@@ -107,10 +107,8 @@ int main(int argc,char** argv)
 		std::cout << "FPS : " <<1.0f/curr_window->GetCurrDeltaTime()<<std::endl;
 		curr_window->RefreshFrame(1.0f, 1.0f, 1.0f, 1.0f);
 		Controller::UpdateObject(curr_window->GetCurrDeltaTime());
-		camera_list[0]->SetAsCurrCamera();
-		camera = Controller::GetCurrCamera();
 
-		material_0->UseMaterial(transform_matrix);
+		// material_0->UseMaterial(transform_matrix);
 		// shader->UseShader();
 		// shader->SetUniformInt("dir_light_num",Controller::GetDirectionalLightNum());
 		// for(int i=0;i<Controller::GetDirectionalLightNum();i++)
@@ -140,10 +138,10 @@ int main(int argc,char** argv)
 		// shader->SetUniformMatrix4x4("projection_matrix",  camera->GetProjectionMatrix());
 
 
-		for(int i=0;i<mesh_list.size();i++)
-		{
-			mesh_list[i]->DrawMesh();
-		}
+		// for(int i=0;i<mesh_list.size();i++)
+		// {
+		// 	mesh_list[i]->DrawMesh();
+		// }
 
 		curr_window->SwapBuffer();
 		////////////
