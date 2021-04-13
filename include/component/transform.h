@@ -16,6 +16,7 @@ public:
     void SetScale(const Eigen::Vector3f& new_scale);
     void SetTransformMatrix(const Eigen::Matrix4f& new_transform_matrix);
     Eigen::Vector3f GetLocation() const;
+    Eigen::Vector3f& GetLocation();
     Eigen::Quaternionf GetRotaion() const;
     Eigen::Vector3f GetScale() const;
     Eigen::Matrix4f GetTransformMatrix() const;

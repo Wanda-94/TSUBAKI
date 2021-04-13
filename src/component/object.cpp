@@ -15,6 +15,8 @@ Object::Object()
     this->parent = nullptr;
     
     this->childs.resize(0);
+
+    this->is_draw_gui = false;
 }
 
 Object::Object(const std::string init_name)
@@ -32,6 +34,8 @@ Object::Object(const std::string init_name)
     this->parent = nullptr;
     
     this->childs.resize(0);
+
+    this->is_draw_gui = false;
 }
 
 Object::Object(const std::string init_name,const ObjectType& init_object_type)
@@ -49,6 +53,8 @@ Object::Object(const std::string init_name,const ObjectType& init_object_type)
     this->parent = nullptr;
     
     this->childs.resize(0);
+
+    this->is_draw_gui = false;
 }
 
 Object::Object(const ObjectType& init_object_type)
@@ -66,6 +72,8 @@ Object::Object(const ObjectType& init_object_type)
     this->parent = nullptr;
     
     this->childs.resize(0);
+
+    this->is_draw_gui = false;
 }
 
 Object::~Object()
@@ -94,6 +102,20 @@ void Object::Update(float delta_time)
     return;
 }
 
+void Object::DrawGUI()
+{
+    std::cout<<"draw gui"<<std::endl;
+}
+
+bool Object::GetIsDrawGUI()
+{
+    return this->is_draw_gui;
+}
+void Object::SetIsDrawGUI(bool new_is_draw_gui)
+{
+    this->is_draw_gui = new_is_draw_gui;
+}
+
 ObjectType Object::GetObjectType() const
 {
     return this->type;
@@ -117,6 +139,11 @@ Eigen::Matrix4f Object::GetTransformMatrix() const
 Eigen::Vector3f Object::GetLocation() const
 {
     return this->transform->GetLocation();
+}
+
+Eigen::Vector3f& Object::GetLocation()
+{
+    return (this->transform->GetLocation());
 }
 
 Eigen::Quaternionf Object::GetRotation() const
@@ -235,10 +262,7 @@ void Object::UpdateLocalMatrix()
 void Object::UpdateChilds(const Eigen::Matrix4f& parent_curr_transform_matrix)
 {
     SetTransformMatrix(parent_curr_transform_matrix*this->local_matrix);
-    // for(int i=0;i<this->childs.size();i++)
-    // {
-    //     this->childs[i]->UpdateChilds(GetTransformMatrix());
-    // }
+    UpdateChilds();
 }
 
 void Object::UpdateChilds()

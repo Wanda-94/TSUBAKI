@@ -4,7 +4,9 @@
 #include <Eigen/Core>
 #include <utility/basic.h>
 #include <component/object.h>
-
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 class LightBase : public Object{
 public:
@@ -20,6 +22,10 @@ public:
     DirectionalLight();
     DirectionalLight(const std::string& init_name);
     ~DirectionalLight();
+
+    //virtual void Update(float delta_time) override;
+    virtual void DrawGUI() override;
+
     Eigen::Vector3f GetLightDirection() const;
     Eigen::Vector3f GetLightColor() const;
     void SetLightDirection(const Eigen::Vector3f& new_light_direction);
@@ -34,6 +40,9 @@ public:
     PointLight();
     PointLight(const std::string& init_name);
     ~PointLight();
+
+    virtual void DrawGUI() override;
+
     Eigen::Vector3f GetLightColor() const;
     float GetAttenuation() const;
     void SetLightColor(const Eigen::Vector3f& new_light_color);
@@ -48,6 +57,9 @@ public:
     AmbientLight();
     AmbientLight(const std::string& init_name);
     ~AmbientLight();
+
+    virtual void DrawGUI() override;
+
     Eigen::Vector3f GetLightColor() const;
     void SetLightColor(const Eigen::Vector3f& new_light_color);
 private:

@@ -35,10 +35,19 @@ add_executable(TSUBAKI
 ./src/component/camera.cpp
 ./src/component/light.cpp
 ./src/component/texture.cpp
+./src/component/resource.cpp
 
 ./src/hardware/interface.cpp
 
-./src/gamebase/actor.cpp
+./src/gamebase/actor/actor.cpp
+./src/gamebase/terrain/terrain.cpp
+
+./3rdpart/imgui-master/backends/imgui_impl_opengl3.cpp 
+./3rdpart/imgui-master/backends/imgui_impl_glfw.cpp 
+./3rdpart/imgui-master/imgui.cpp 
+./3rdpart/imgui-master/imgui_draw.cpp 
+./3rdpart/imgui-master/imgui_tables.cpp 
+./3rdpart/imgui-master/imgui_widgets.cpp 
 )   
 
 target_include_directories(TSUBAKI PRIVATE ./include/)

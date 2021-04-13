@@ -32,9 +32,9 @@ const int ChannelsToDataFormat[5] = {
     2
 };
 const int DataFormatToGLFormat[3] = {
-    GL_R8UI,
-    GL_RGB8UI,
-    GL_RGBA8UI
+    GL_R8,
+    GL_RGB8,
+    GL_RGBA8
 };
 const int DataFormatToExternalFormat[3] ={
     GL_RED,

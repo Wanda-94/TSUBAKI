@@ -18,6 +18,11 @@ Mesh::~Mesh()
     glDeleteBuffers(1,&EBO);
 }
 
+std::string Mesh::GetLabel() const
+{
+    return label;
+}
+
 void Mesh::DrawMesh() const
 {
     DrawToHardware();

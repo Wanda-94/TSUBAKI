@@ -57,6 +57,10 @@ Eigen::Vector3f Transform::GetLocation() const
 {
     return this->location;
 }
+Eigen::Vector3f& Transform::GetLocation()
+{
+    return this->location;
+}
 Eigen::Quaternionf Transform::GetRotaion() const
 {
     return this->rotation;

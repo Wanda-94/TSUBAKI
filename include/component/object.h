@@ -16,12 +16,14 @@ public:
     virtual ~Object();
     //some function with transform
     virtual void Update(float delta_time);
+    virtual void DrawGUI();
     unsigned int GetObjectID() const;
     std::string GetObjectName() const;
     ObjectType GetObjectType() const;
     Transform* GetTransform() const;
     Transform GetTransformCopy() const;
     Eigen::Vector3f GetLocation() const;
+    Eigen::Vector3f& GetLocation();
     Eigen::Quaternionf GetRotation() const;
     Eigen::Vector3f GetScale() const;
     Eigen::Matrix4f GetTransformMatrix() const;
@@ -39,6 +41,8 @@ public:
     int GetChildNum();
     Object* GetChild(int index);
 
+    bool GetIsDrawGUI();
+    void SetIsDrawGUI(bool new_is_draw_gui);
 protected:
 
 private:
@@ -48,6 +52,7 @@ private:
 
 
     unsigned int ID;
+    bool is_draw_gui;
     std::string name;
     ObjectType type;
     Transform* transform;

@@ -1,9 +1,29 @@
 #include <component/material.h>
 
-Material::Material(const std::string& init_label,
-Shader* init_shader)
+MaterialBase::MaterialBase(const std::string& init_label,const MaterialType& init_material_type)
 {
-    label = init_label;
+    this->label = init_label;
+    this->material_type = init_material_type;
+}
+
+MaterialBase::~MaterialBase()
+{
+
+}
+
+std::string MaterialBase::GetLabel()
+{
+    return this->label;
+}
+
+MaterialType MaterialBase::GetMaterialType()
+{
+    return this->material_type;
+}
+
+Material::Material(const std::string& init_label,
+Shader* init_shader):MaterialBase(init_label,MaterialType::MATERIAL_BRDF)
+{
     shader = init_shader;
     albedo = Eigen::Vector3f(1.0f,1.0f,1.0f);
     metallic = 0.0f;
@@ -30,8 +50,9 @@ void Material::RemoveTexture(TextureType rm_texture_type)
     texture_map[rm_texture_type] = nullptr;
 }
 
-void Material::UseMaterial(const Eigen::Matrix4f& transform_matrix)
+void Material::UseMaterial(Object* object)
 {
+    Eigen::Matrix4f& transform_matrix = object->GetTransformMatrix();
     shader->UseShader();
     SetTextureStatus();
     SetCameraStatus();
@@ -112,4 +133,44 @@ void Material::SetLightStatus()
         shader->SetUniformBool("use_ambient_texture",false);
         shader->SetUniformVec3("ambient_color",Eigen::Vector3f(0.0f,0.0f,0.0f));
     }
+}
+
+TerrainMaterial::TerrainMaterial(const std::string& init_label,
+Shader* init_shader):MaterialBase(init_label,MaterialType::MATERIAL_TERRAIN)
+{
+    this->shader = init_shader;
+    this->DEM_texture = nullptr;
+    this->DEM_normal_texture = nullptr;
+    this->z_scale = 1.0f;
+}
+
+TerrainMaterial::~TerrainMaterial()
+{
+
+}
+
+void TerrainMaterial::UseMaterial(Object* object)
+{
+    shader->UseShader();
+    DEM_texture->ActiveTexture(1);
+    DEM_normal_texture->ActiveTexture(2);
+    shader->SetUniformInt("DEM_texture",1);
+    shader->SetUniformInt("DEM_normal_texture",2);
+    shader->SetUniformFloat("z_scale",this->z_scale);
+    shader->SetUniformMatrix4x4("camera_matrix",Controller::GetCurrCamera()->GetToLocalMatrix());
+    shader->SetUniformMatrix4x4("projection_matrix",Controller::GetCurrCamera()->GetProjectionMatrix());
+    shader->SetUniformMatrix4x4("transform_matrix",object->GetTransformMatrix());
+
+}
+
+void TerrainMaterial::SetZScale(float new_z_scale)
+{
+    this->z_scale = new_z_scale;
+}
+
+void TerrainMaterial::SetDEMData(Texture* new_DEM_texture,
+Texture* new_DEM_normal_texture)
+{
+    this->DEM_texture = new_DEM_texture;
+    this->DEM_normal_texture = new_DEM_normal_texture;
 }

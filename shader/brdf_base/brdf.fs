@@ -171,6 +171,11 @@ void main()
     float metallic_ = GetMetallic(uv);
     float roughness_ = GetRoughness(uv);
 
+    if(texture(albedo_texture,uv).a < 0.5)
+    {
+        discard;
+    }
+
     vec3 view_vector = normalize(view_position-vs_position);
     vec3 F0 = vec3(0.04f);
     F0 = mix(F0,albedo_,metallic_);
@@ -229,7 +234,7 @@ void main()
 
     vec3 ambient = GetAmbient();
 
-    res_color += ambient;
+    res_color += ambient*albedo_;
 
     res_color = res_color /(res_color+vec3(1.0f));
 

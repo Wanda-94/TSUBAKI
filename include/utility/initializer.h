@@ -4,6 +4,7 @@
 #include <utility/config.h>
 #include <utility/basic.h>
 
+
 enum class E_INIT_ERROR{
     NONE_ERROR = 0,
     GLFW_INIT_ERROR = 1,

@@ -1,6 +1,6 @@
 #include <component/camera.h>
 
-Camera::Camera():near(1.0f),far(10000.0f),size(1.0f),move_speed(10.0f),Object(ObjectType::CAMERA)
+Camera::Camera():near(1.0f),far(10000000.0f),size(1.0f),move_speed(10.0f),Object(ObjectType::CAMERA)
 {
     ratio = (WINDOW_WIDTH)/((float)WINDOW_HEIGHT);
     UpdateToLocalMatrix();
@@ -23,14 +23,14 @@ Camera::~Camera()
 
 void Camera::Update(float delta_time)
 {
-    std::cout<<"camera"<<std::endl;
+   // std::cout<<"camera"<<std::endl;
     Window* curr_window = Window::GetWindowInstance();
-    float mouse_move_x,mouse_move_y;
-    curr_window->GetMouseMove(mouse_move_x,mouse_move_y);
-    float angle_x = -((mouse_move_x*90.0f)*PI/180.0f);
-    float angle_y = (mouse_move_y*90.0f)*PI/180.0f;
-    SetRotation(GetRotation()*Eigen::Quaternionf(cos(angle_x),0.0f,sin(angle_x),0.0f));
-    SetRotation(GetRotation()*Eigen::Quaternionf(cos(angle_y),sin(angle_y),0.0f,0.0f));
+   // float mouse_move_x,mouse_move_y;
+    //curr_window->GetMouseMove(mouse_move_x,mouse_move_y);
+    //float angle_x = -((mouse_move_x*90.0f)*PI/180.0f);
+    //float angle_y = (mouse_move_y*90.0f)*PI/180.0f;
+   //SetRotation(GetRotation()*Eigen::Quaternionf(cos(angle_x),0.0f,sin(angle_x),0.0f));
+    //SetRotation(GetRotation()*Eigen::Quaternionf(cos(angle_y),sin(angle_y),0.0f,0.0f));
     if(curr_window->IsPressKey(GLFW_KEY_W))
     {
         SetLocation(GetLocation()+delta_time*move_speed*(GetRotation()*Eigen::Vector3f(0.0f,0.0f,1.0f)));

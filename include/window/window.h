@@ -5,6 +5,9 @@
 #include <utility/basic.h>
 #include <utility/initializer.h>
 #include <Eigen/Core>
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 enum class E_WINDOW_ERROR
 {
@@ -24,7 +27,7 @@ public:
 
     void SetAsCurrentWindow();
 
-    void RefreshFrame(float R=0.0f,float G=0.0f,float B=0.0f,float A=1.0f);
+    void RefreshFrame();
 
     void UpdateStatus();
 
@@ -35,6 +38,10 @@ public:
     unsigned long long int GetCurrFrameCount();
 
     double GetCurrDeltaTime();
+
+    void DealInputEvent();
+
+    void RefreshGUIFrame();
 
     void SetDepthTest(bool flag);
     
@@ -62,6 +69,8 @@ private:
     double delta_time;
 
     double mouse_center_x,mouse_center_y,mouse_x,mouse_y;
+
+    Eigen::Vector4f background_color;
 
 };
 

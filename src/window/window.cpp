@@ -45,8 +45,9 @@ end:
     else
     {
         is_init = true;
-    }
 
+        background_color = Eigen::Vector4f(1.0f,1.0f,1.0f,1.0f);
+    }
 }
 
 void Window::SetAsCurrentWindow()
@@ -56,9 +57,16 @@ void Window::SetAsCurrentWindow()
 
         glfwMakeContextCurrent(window);
 
-        glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+        glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_NORMAL);
 
         glfwGetCursorPos(window,&mouse_center_x,&mouse_center_y);
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();(void)io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window,true);
+        ImGui_ImplOpenGL3_Init("#version 450 core");
     }
 }
 
@@ -98,40 +106,52 @@ double Window::GetCurrDeltaTime()
     return delta_time;
 }
 
-void Window::RefreshFrame(float R,float G,float B,float A)
+void Window::DealInputEvent()
+{
+    glfwPollEvents();
+}
+
+void Window::RefreshGUIFrame()
+{
+    ImGui_ImplOpenGL3_NewFrame();
+
+    ImGui_ImplGlfw_NewFrame();
+
+    ImGui::NewFrame();
+
+    {
+        ImGui::Begin("Window Setting");
+        ImGui::ColorEdit4("background color",background_color.data());
+        ImGui::End();
+    }
+}
+
+void Window::RefreshFrame()
 {
 
-    if(IsInit())
-    {
+    UpdateStatus();
 
-        UpdateStatus();
+    glClearColor(background_color[0],background_color[1],background_color[2],
+    background_color[3]);
 
-        glClearColor(R,G,B,A);
-
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
         //glClearDepth(-1000.0);
-
-    }
-
+ 
 }
+
 void Window::SwapBuffer()
 {
-    if(IsInit())
-    {
-        
-        if(window!=nullptr)
-        {
-            glfwSwapBuffers(window);
-        }
 
-        glfwPollEvents();
+    ImGui::Render();
 
-        mouse_center_x = mouse_x;
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        mouse_center_y = mouse_y;
+    glfwSwapBuffers(window);
 
-    }
+    mouse_center_x = mouse_x;
+
+    mouse_center_y = mouse_y;
 
 }
 void Window::UpdateStatus()

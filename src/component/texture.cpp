@@ -30,13 +30,13 @@ void Texture::GenGLTexture(int repeat_pattern,int mag_filter_pattern,int min_fil
     glBindTexture(GL_TEXTURE_2D,this->TBO);
     glTexImage2D(GL_TEXTURE_2D,
     0,
-    //DataFormatToGLFormat[(int)(this->data_format)],
-    GL_RGB,
+    DataFormatToGLFormat[(int)(this->data_format)],
+    //GL_RGB8,
     this->width,
     this->height,
     0,
-    //DataFormatToExternalFormat[(int)(this->data_format)],
-    GL_RGB,
+    DataFormatToExternalFormat[(int)(this->data_format)],
+    //GL_RGB,
     GL_UNSIGNED_BYTE,
     this->data);
     glGenerateMipmap(GL_TEXTURE_2D);

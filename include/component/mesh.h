@@ -42,6 +42,7 @@ public:
     const std::vector<unsigned int>& init_indices
     );
     ~Mesh();
+    std::string GetLabel() const;
     void DrawMesh() const;
 private:
     void BindToHardware();

@@ -85,6 +85,23 @@ void Controller::UpdateObject(float delta_time)
     return GetController()->UpdateObject_(delta_time);
 }
 
+void Controller::DrawObjectGUI()
+{
+    GetController()->DrawObjectGUI_();
+}
+
+void Controller::DrawObjectGUI_()
+{
+    for(auto i = object_map.begin(); i != object_map.end(); i++)
+    {
+        Object* object = i->second;
+        if(object->GetIsDrawGUI())
+        {
+            object->DrawGUI();
+        }
+    }
+}
+
 void Controller::InsertDirectionalLight(const int ID)
 {
     GetController()->InsertDirectionalLight_(ID);

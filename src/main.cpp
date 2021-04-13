@@ -10,7 +10,8 @@
 #include <component/camera.h>
 #include <component/light.h>
 #include <component/material.h>
-#include <gamebase/actor.h>
+#include <gamebase/actor/actor.h>
+#include <gamebase/terrain/terrain.h>
 
 int main(int argc,char** argv)
 {
@@ -21,70 +22,79 @@ int main(int argc,char** argv)
 	curr_window->SetAsCurrentWindow();
 	curr_window->SetDepthTest(true);
 
-	Camera* camera_0 = new Camera();
-	camera_0->SetLocation(Eigen::Vector3f(10.0f,0.0f,100.0f));
+	Camera* camera_0 = new Camera("camera_01");
+	camera_0->SetLocation(Eigen::Vector3f(0.0f,0.0f,100.0f));
 	camera_0->SetRotation(Eigen::Quaternionf(0.0f,0.0f,1.0f,0.0f));
 	camera_0->SetMoveSpeed(100.0f);
+	camera_0->SetAsCurrCamera();
 
-	Camera* camera_1 = new Camera();
-	camera_1->SetLocation(Eigen::Vector3f(-10.0f,0.0f,100.0f));
-	camera_1->SetRotation(Eigen::Quaternionf(0.0f,0.0f,1.0f,0.0f));
-	camera_1->SetMoveSpeed(100.0f);
-
-	Camera* camera_list[2] = {camera_0,camera_1};
-
-	Camera* camera;
-
-
-	Shader* shader = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf_base");
-	
-	Material* material_0 = new Material("material_0",shader);
-	Material* material_1 = new Material("material_1",shader);
-
-	// std::string TBKpath = "C:/WorkSpace/Asset/Model/tsubaki.tbk";
-	// TBKScene* scene = new TBKScene();
-	// Importer::LoadTBK(TBKpath,scene);
-
-	// std::vector<Mesh*> mesh_list;
-
-	// for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
-	// {
-	// 	mesh_list.push_back(Importer::GetMeshFromTBKScene(scene,i));
-	// }
-
-	Vertex v1;
-	v1.SetPosition(-10.0f,0.0f,0.0f);
-	v1.SetUV(0.0f,0.0f);
-	v1.SetNormal(0.0f,0.0f,1.0f);
-	Vertex v2;
-	v2.SetPosition(10.0f,0.0f,0.0f);
-	v2.SetUV(1.0f,0.0f);
-	v2.SetNormal(0.0f,0.0f,1.0f);
-	Vertex v3;
-	v3.SetPosition(10.0f,10.0f,0.0f);
-	v3.SetUV(1.0f,1.0f);
-	v3.SetNormal(0.0f,0.0f,1.0f);
-	Vertex v4;
-	v4.SetPosition(-10.0f,10.0f,0.0f);
-	v4.SetUV(0.0f,1.0f);
-	v4.SetNormal(0.0f,0.0f,1.0f);
-	std::vector<Vertex> vertices({v1,v2,v3,v4});
-	std::vector<unsigned int> indices({0,1,2,0,2,3});
-	Mesh* quad = new Mesh("Quad",vertices,indices);
-
-	// mesh_list.push_back(quad);
-
-	Texture* texture_1 = Importer::LoadTexture("texture_1","C:/WorkSpace/Asset/Texture/miku.jpg");
-	material_1->AddTexture(TextureType::TEXTURE_ALBEDO,texture_1);
-
-	DirectionalLight* dir_light_0 = new DirectionalLight();
+	DirectionalLight* dir_light_0 = new DirectionalLight("dir_light_01");
 	dir_light_0->SetLightDirection((Eigen::Vector3f(1.0f,-1.0f,-1.0f).normalized()));
-	dir_light_0->SetLightColor(Eigen::Vector3f(1.0f,0.0f,0.0f));
-	PointLight* point_light_0 = new PointLight();
-	point_light_0->SetLightColor(Eigen::Vector3f(0.0f,0.0f,1.0f));
+	dir_light_0->SetLightColor(Eigen::Vector3f(1.0f,1.0f,1.0f));
+	dir_light_0->SetIsDrawGUI(true);
+	PointLight* point_light_0 = new PointLight("point_light_01");
+	point_light_0->SetLightColor(Eigen::Vector3f(1.0f,1.0f,1.0f));
 	point_light_0->SetAttenuation(1.0f);
 	point_light_0->SetLocation(Eigen::Vector3f(0.0f,0.0f,1.0f));
-	//AmbientLight* ambient_light_0 = new AmbientLight();
+	point_light_0->SetIsDrawGUI(true);
+	AmbientLight* ambient_light = new AmbientLight("ambient_light_01");
+	ambient_light->SetLightColor(Eigen::Vector3f(0.1f,0.1f,0.1f));
+	ambient_light->SetIsDrawGUI(true);
+
+
+	/////////////Miku////////////////////////////////
+	// Shader* shader_0 = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf_base");
+	
+
+	// Material* material_0 = new Material("material_0", shader_0);
+	// Material* material_1 = new Material("material_1", shader_0);
+	// Material* material_2 = new Material("material_2", shader_0);
+	// Material* material_3 = new Material("material_3", shader_0);
+	// Material* material_4 = new Material("material_4", shader_0);
+	// Material* material_5 = new Material("material_5", shader_0);
+	// Material* material_6 = new Material("material_6", shader_0);
+	// Material* material_7 = new Material("material_7", shader_0);
+
+	// Texture* texture_0 = Importer::LoadTexture("texture_0","C:/WorkSpace/Asset/Texture/miku/body.png");
+	// material_0->AddTexture(TextureType::TEXTURE_ALBEDO,texture_0);
+	// Texture* texture_1 = Importer::LoadTexture("texture_1","C:/WorkSpace/Asset/Texture/miku/cloth_01.png");
+	// material_1->AddTexture(TextureType::TEXTURE_ALBEDO,texture_1);
+	// Texture* texture_2 = Importer::LoadTexture("texture_0","C:/WorkSpace/Asset/Texture/miku/cloth_02.png");
+	// material_2->AddTexture(TextureType::TEXTURE_ALBEDO,texture_2);
+	// Texture* texture_3 = Importer::LoadTexture("texture_3","C:/WorkSpace/Asset/Texture/miku/cloth_03.png");
+	// material_3->AddTexture(TextureType::TEXTURE_ALBEDO,texture_3);
+	// Texture* texture_4 = Importer::LoadTexture("texture_4","C:/WorkSpace/Asset/Texture/miku/cloth_04.png");
+	// material_4->AddTexture(TextureType::TEXTURE_ALBEDO,texture_4);
+	// Texture* texture_5 = Importer::LoadTexture("texture_5","C:/WorkSpace/Asset/Texture/miku/face.png");
+	// material_5->AddTexture(TextureType::TEXTURE_ALBEDO,texture_5);
+	// Texture* texture_6 = Importer::LoadTexture("texture_6","C:/WorkSpace/Asset/Texture/miku/hair.png");
+	// material_6->AddTexture(TextureType::TEXTURE_ALBEDO,texture_6);
+	// Texture* texture_7 = Importer::LoadTexture("texture_7","C:/WorkSpace/Asset/Texture/miku/pants.png");
+	// material_7->AddTexture(TextureType::TEXTURE_ALBEDO,texture_7);
+
+	// std::unordered_map<std::string,Material*> mm_map;
+	// mm_map["o_body"] = material_0;
+	// mm_map["o_bra"] = material_1;
+	// mm_map["o_dress_01"] = material_3;
+	// mm_map["o_dress_02"] = material_1;
+	// mm_map["o_dress_03"] = material_1;
+	// mm_map["o_dress_04"] = material_1;
+	// mm_map["o_dress_05"] = material_1;
+	// mm_map["o_dress_06"] = material_1;
+	// mm_map["o_dress_07"] = material_3;
+
+	// mm_map["o_face_01"] = material_5;
+	// mm_map["o_footwear"] = material_3;
+	// mm_map["o_hair_01"] = material_6;
+	// mm_map["o_headwear_01"] = material_4;
+	// mm_map["o_headwear_02"] = material_4;
+	// mm_map["o_mask_01"] = material_1;
+	// mm_map["o_outfit_01"] = material_1;
+	// mm_map["o_outfit_02"] = material_3;
+	// mm_map["o_outfit_03"] = material_3;
+
+	// mm_map["o_pants_01"] = material_7;
+
 
 	Eigen::Matrix4f identity = Eigen::Matrix4f::Identity();
 	Eigen::Matrix4f translate = identity;
@@ -94,57 +104,75 @@ int main(int argc,char** argv)
 	Eigen::Affine3f transform = translation*rotation*scale;
 	Eigen::Matrix4f transform_matrix = transform.matrix();
 
-	Actor* actor_0 = new Actor(quad,material_1);
-	actor_0->SetScale(Eigen::Vector3f(0.5f,2.0f,1.0f));
-	Actor* actor_1 = new Actor(quad,material_0);
-	actor_1->SetTransformMatrix(transform_matrix);
+	// std::string TBKpath = "C:/BlenderOutput/Tsubaki/tsubaki.tbk";
+	// TBKScene* scene = new TBKScene();
+	// Importer::LoadTBK(TBKpath,scene);
 
-	camera_list[0]->SetAsCurrCamera();
+	// Actor* miku = new Actor("miku");
+	// // std::vector<Actor*> actor_list;
+	// for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
+	// {
+	// 	Mesh* mesh = Importer::GetMeshFromTBKScene(scene,i);
+	// 	Actor* actor = new Actor(mesh,mm_map[mesh->GetLabel()]);
+	// 	miku->AddChild(actor);
+	// 	// actor->SetTransformMatrix(transform_matrix);
+	// 	// actor_list.push_back(actor);
+	// }
+
+	// miku->SetTransformMatrix(transform_matrix);
+	/////////////Miku////////////////////////////////
+
+	Shader* shader_0 = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf");
+	Material* material_0 = new Material("material_0", shader_0);
+	std::string TBKpath = "C:/BlenderOutput/Tsubaki/miku_for_game.tbk";
+	TBKScene* scene = new TBKScene();
+	Importer::LoadTBK(TBKpath,scene);
+
+	Actor* miku = new Actor("miku");
+
+	for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
+	{
+		Mesh* mesh = Importer::GetMeshFromTBKScene(scene,i);
+		Actor* actor = new Actor(mesh,material_0);
+		miku->AddChild(actor);
+	}
+
+	miku->SetTransformMatrix(transform_matrix);
+
+	/////////////square//////////////////////////////
+	//Material* material_square = new Material("material_square",shader_0);
+	// Texture* texture_8 = Importer::LoadTexture("texture_0","C:/WorkSpace/Asset/Texture/miku.jpg");
+	//material_square->AddTexture(TextureType::TEXTURE_ALBEDO,texture_8);
+	//Square* square_0 = new Square(material_square);
+	//square_0->SetScale(Eigen::Vector3f(10.0f,20.0f,10.0f));
+	/////////////square//////////////////////////////
+	// int terrain_lod = 2048;
+	// float terrain_size = 300.0f*100.0f;
+	// float terrain_z_scale = 100.0f;
+	///////////////terrain/////////////////////////////
+	//Shader* shader_1 = new Shader("terrain","C:/WorkSpace/VS/Engine/TSUBAKI/shader/terrain");
+	//TerrainMaterial* material_terrain = new TerrainMaterial("material_terrain",shader_1);
+	//Texture* texture_9 = Importer::LoadTexture("texture_0","C:/WorkSpace/Asset/Texture/DEM/part_14.jpg");
+	//Texture* texture_10 = Importer::LoadTexture("texture_0","C:/WorkSpace/Asset/Texture/DEM/part_normal_14.jpg");
+	//material_terrain->SetDEMData(texture_9,texture_10);
+	//material_terrain->SetZScale(terrain_z_scale);
+	//Terrain* terrain = new Terrain(terrain_lod,material_terrain);
+	//terrain->SetScale(Eigen::Vector3f(terrain_size,terrain_size,1.0f));
+	//terrain->SetRotation(Eigen::Quaternionf(0.707f,-0.707f,0.0f,0.0f));
+	///////////////terrain/////////////////////////////
 
 	while(curr_window->GetCurrFrameCount()<100000)
 	{
+		//transform_matrix(0,3)+=1.0f;
+		miku->SetTransformMatrix(transform_matrix);
 		std::cout << "Frame Count : " <<curr_window->GetCurrFrameCount() << std::endl;
 		std::cout << "FPS : " <<1.0f/curr_window->GetCurrDeltaTime()<<std::endl;
-		curr_window->RefreshFrame(1.0f, 1.0f, 1.0f, 1.0f);
+		curr_window->DealInputEvent();
+		curr_window->RefreshGUIFrame();
+		Controller::DrawObjectGUI();
+		curr_window->RefreshFrame();
 		Controller::UpdateObject(curr_window->GetCurrDeltaTime());
-
-		// material_0->UseMaterial(transform_matrix);
-		// shader->UseShader();
-		// shader->SetUniformInt("dir_light_num",Controller::GetDirectionalLightNum());
-		// for(int i=0;i<Controller::GetDirectionalLightNum();i++)
-		// {
-		// 	DirectionalLight* dir_light = Controller::GetDirectionalLight(i);
-		// 	shader->SetUniformVec3("dir_light_array["+std::to_string(i)+"].dir",dir_light->GetLightDirection());
-		// 	shader->SetUniformVec3("dir_light_array["+std::to_string(i)+"].color",dir_light->GetLightColor());
-		// }
-		// shader->SetUniformVec3("ambient_color",Eigen::Vector3f(0.010f,0.010f,0.010f));
-		// shader->SetUniformVec3("albedo",Eigen::Vector3f(1.0f,1.0f,1.0f));
-		// shader->SetUniformFloat("metallic",0.0f);
-		// shader->SetUniformFloat("roughness",1.0f);
-		// //shader->SetUniformFloat("ao",1.0f);
-		
-		// shader->SetUniformVec3("view_position",camera->GetLocation());
-		// shader->SetUniformBool("use_albedo_texture",false);
-		// shader->SetUniformBool("use_normal_texture",false);
-		// shader->SetUniformBool("use_metallic_texture",false);
-		// shader->SetUniformBool("use_roughness_texture",false);
-		// //shader->SetUniformBool("use_ao_texture",false);
-		// shader->SetUniformBool("use_ambient_texture",false);
-
-
-
-		// shader->SetUniformMatrix4x4("transform_matrix",transform_matrix);
-		// shader->SetUniformMatrix4x4("camera_matrix",camera->GetToLocalMatrix());
-		// shader->SetUniformMatrix4x4("projection_matrix",  camera->GetProjectionMatrix());
-
-
-		// for(int i=0;i<mesh_list.size();i++)
-		// {
-		// 	mesh_list[i]->DrawMesh();
-		// }
-
 		curr_window->SwapBuffer();
-		////////////
 	}
 	curr_window->CloseWindow();
 

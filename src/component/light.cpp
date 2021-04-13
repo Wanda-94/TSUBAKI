@@ -81,6 +81,14 @@ DirectionalLight::~DirectionalLight()
 
 }
 
+
+void DirectionalLight::DrawGUI()
+{
+    ImGui::Begin(this->GetObjectName().c_str());
+    ImGui::ColorEdit3("light color",this->light_color.data());
+    ImGui::End();
+}
+
 Eigen::Vector3f DirectionalLight::GetLightDirection() const
 {
     return this->light_direction;
@@ -117,7 +125,14 @@ PointLight::~PointLight()
 {
 
 }
-
+void PointLight::DrawGUI()
+{
+    ImGui::Begin(this->GetObjectName().c_str());
+    ImGui::InputFloat3("location",this->GetLocation().data());
+    ImGui::ColorEdit3("light color",this->light_color.data());
+    ImGui::InputFloat("attenuation",&(this->attenuation));
+    ImGui::End();
+}
 Eigen::Vector3f PointLight::GetLightColor() const
 {
     return this->light_color;
@@ -150,6 +165,14 @@ AmbientLight::~AmbientLight()
 {
 
 }
+
+void AmbientLight::DrawGUI()
+{
+    ImGui::Begin(this->GetObjectName().c_str());
+    ImGui::ColorEdit3("light_color",this->light_color.data());
+    ImGui::End();
+}
+
 Eigen::Vector3f AmbientLight::GetLightColor() const
 {
     return this->light_color;

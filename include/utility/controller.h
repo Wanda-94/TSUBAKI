@@ -38,6 +38,7 @@ public:
     static Camera* GetCurrCamera();
 
     static void UpdateObject(float delta_time);
+    static void DrawObjectGUI();
     virtual ~Controller();
 private:
     Controller();
@@ -47,6 +48,7 @@ private:
     int InsertObject_(const Object* object);
     void RemoveObejct_(const int ID);
     void UpdateObject_(float delta_time);
+    void DrawObjectGUI_();
     void InsertDirectionalLight_(const int ID);
     void InsertPointLight_(const int ID);
     void RemoveDirectionalLight_(const int ID);
@@ -64,6 +66,17 @@ private:
     std::stack<unsigned int> ID_stack;
 };
 
+class Texture;
+class Material;
+class Shader;
 
+class ResourceController{
+public:
+
+
+private:
+
+
+};
 
 #endif
