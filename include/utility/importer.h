@@ -36,6 +36,7 @@ public:
     //convert tbk scene to engine class
     static unsigned int GetMeshNumFromTBKScene(const TBKScene* scene);
     static Mesh* GetMeshFromTBKScene(TBKScene* scene,unsigned int index);
+    static SkeletonMesh* GetSkeletonMeshFromTBKScene(TBKScene* scene,unsigned int index);
     //import texture
     static Texture* LoadTexture(const std::string& label,const std::string& path);
     static void FreeTexture(Texture* texture);

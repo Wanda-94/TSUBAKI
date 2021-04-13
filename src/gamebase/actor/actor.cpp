@@ -68,3 +68,45 @@ void Square::Update(float delta_time)
     this->material->UseMaterial(this);
     this->mesh->DrawMesh();
 }
+
+ActorWithAnimation::ActorWithAnimation()
+{
+	this->skeleton_mesh = nullptr;
+	this->material = nullptr;
+}
+
+ActorWithAnimation::ActorWithAnimation(std::string name):Object(name)
+{
+	this->skeleton_mesh = nullptr;
+	this->material = nullptr;
+}
+
+ActorWithAnimation::ActorWithAnimation(SkeletonMesh* init_skeleton_mesh,MaterialBase* init_material)
+{
+	this->skeleton_mesh = init_skeleton_mesh;
+	this->material = init_material;
+}
+ActorWithAnimation::ActorWithAnimation(std::string name,SkeletonMesh* init_skeleton_mesh,MaterialBase* init_material):Object(name)
+{
+	this->skeleton_mesh = init_skeleton_mesh;
+	this->material = init_material;	
+}
+
+void ActorWithAnimation::AddAnimation(std::string name,AnimationTexture* animation_texture)
+{
+	animation_map[name] = animation_texture;
+}
+
+ActorWithAnimation::~ActorWithAnimation()
+{
+
+}
+  
+void ActorWithAnimation::Update(float delta_time)
+{
+	if(this->skeleton_mesh!=nullptr&&this->material!=nullptr)
+	{
+    	this->material->UseMaterial(this);
+    	this->skeleton_mesh->DrawMesh();
+	}
+}

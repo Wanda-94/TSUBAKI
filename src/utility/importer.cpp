@@ -420,24 +420,6 @@ Mesh* Importer::GetMeshFromTBKScene(TBKScene* scene,unsigned int index)
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 
-    // for(int face_index = 0;face_index<(tbk_mesh->faces.size()/3);face_index++)
-    // {
-    //     //triangle
-    //     for(int i=0;i<3;i++)
-    //     {
-    //         Vertex vertex;
-    //         TBKVector3f p = (tbk_mesh->vertices[tbk_mesh->faces[face_index*3+i]]);
-    //         TBKVector3f n = (tbk_mesh->normals[tbk_mesh->faces[face_index*3+i]]);
-    //         TBKVector2f uv = (tbk_mesh->uv_layers[0][face_index*3+i]);
-    //         vertex.SetPosition(p.x,p.y,p.z);
-    //         vertex.SetNormal(n.x,n.y,n.z);
-    //         vertex.SetUV(uv.x,uv.y);
-    //         vertices.push_back(vertex);
-    //         indices.push_back(face_index*3+i);
-    //     }
-    //     //
-    // }
-
     for(int face_index = 0;face_index<(tbk_mesh->faces.size());face_index++)
     {
         //triangle
@@ -454,6 +436,38 @@ Mesh* Importer::GetMeshFromTBKScene(TBKScene* scene,unsigned int index)
     }
 
     Mesh* mesh = new Mesh(label,vertices,indices);
+
+    return mesh;
+}
+
+SkeletonMesh* Importer::GetSkeletonMeshFromTBKScene(TBKScene* scene,unsigned int index)
+{
+    TBKMesh* tbk_mesh = (scene->tbk_mesh_list[index]);
+
+    std::string label = tbk_mesh->label;
+    std::vector<SkeletonVertex> vertices;
+    std::vector<unsigned int> indices;
+
+    for(int face_index = 0;face_index<(tbk_mesh->faces.size());face_index++)
+    {
+        //triangle
+            int vertex_index = tbk_mesh->faces[face_index];
+            SkeletonVertex vertex;
+            TBKVector3f p = (tbk_mesh->vertices[vertex_index]);
+            TBKVector3f n = (tbk_mesh->normals[vertex_index]);
+            TBKVector2f uv = (tbk_mesh->uv_layers[0][face_index]);
+            std::vector<std::pair<int,float>> w = tbk_mesh->weights[vertex_index];
+            vertex.SetPosition(p.x,p.y,p.z);
+            vertex.SetNormal(n.x,n.y,n.z);
+            vertex.SetUV(uv.x,uv.y);
+            vertex.SetBoneIndex(w[0].first,w[1].first,w[2].first,w[3].first);
+            vertex.SetBoneWeight(w[0].second,w[1].second,w[2].second,w[3].second);
+            vertices.push_back(vertex);
+            indices.push_back((unsigned int)face_index);
+        //
+    }
+
+    SkeletonMesh* mesh = new SkeletonMesh(label,vertices,indices);
 
     return mesh;
 }

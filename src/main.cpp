@@ -122,7 +122,24 @@ int main(int argc,char** argv)
 	// miku->SetTransformMatrix(transform_matrix);
 	/////////////Miku////////////////////////////////
 
-	Shader* shader_0 = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf");
+	// Shader* shader_0 = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf");
+	// Material* material_0 = new Material("material_0", shader_0);
+	// std::string TBKpath = "C:/BlenderOutput/Tsubaki/miku_for_game.tbk";
+	// TBKScene* scene = new TBKScene();
+	// Importer::LoadTBK(TBKpath,scene);
+
+	// Actor* miku = new Actor("miku");
+
+	// for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
+	// {
+	// 	Mesh* mesh = Importer::GetMeshFromTBKScene(scene,i);
+	// 	Actor* actor = new Actor(mesh,material_0);
+	// 	miku->AddChild(actor);
+	// }
+
+	// miku->SetTransformMatrix(transform_matrix);
+
+	Shader* shader_0 = new Shader("brdf","C:/WorkSpace/VS/Engine/TSUBAKI/shader/brdf_s");
 	Material* material_0 = new Material("material_0", shader_0);
 	std::string TBKpath = "C:/BlenderOutput/Tsubaki/miku_for_game.tbk";
 	TBKScene* scene = new TBKScene();
@@ -130,14 +147,17 @@ int main(int argc,char** argv)
 
 	Actor* miku = new Actor("miku");
 
+	std::vector<SkeletonMesh*> debug;
 	for(int i=0;i<Importer::GetMeshNumFromTBKScene(scene);i++)
 	{
-		Mesh* mesh = Importer::GetMeshFromTBKScene(scene,i);
-		Actor* actor = new Actor(mesh,material_0);
+		SkeletonMesh* skeleton_mesh = Importer::GetSkeletonMeshFromTBKScene(scene,i);
+		ActorWithAnimation* actor = new ActorWithAnimation(skeleton_mesh,material_0);
 		miku->AddChild(actor);
+		debug.push_back(skeleton_mesh);
 	}
 
 	miku->SetTransformMatrix(transform_matrix);
+
 
 	/////////////square//////////////////////////////
 	//Material* material_square = new Material("material_square",shader_0);

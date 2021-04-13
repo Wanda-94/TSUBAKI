@@ -41,4 +41,6 @@ const int DataFormatToExternalFormat[3] ={
     GL_RGB,
     GL_RGBA
 };
+
+class AnimationTexture{};
 #endif

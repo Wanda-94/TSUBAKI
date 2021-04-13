@@ -31,7 +31,7 @@ public:
     ActorWithAnimation(std::string name);
     ActorWithAnimation(SkeletonMesh* init_skeleton_mesh,MaterialBase* init_material);
     ActorWithAnimation(std::string name,SkeletonMesh* init_skeleton_mesh,MaterialBase* init_material);
-    void AddAnimation(std::string label,AnimationTexture* animation_texture);
+    void AddAnimation(std::string name,AnimationTexture* animation_texture);
     virtual ~ActorWithAnimation();
     virtual void Update(float delta_time);
 private:
@@ -39,7 +39,7 @@ private:
     float animation_start_time;
     SkeletonMesh* skeleton_mesh;
     MaterialBase* material;
-    std::map<std::string,AnimationTexture*> animations_map;
+    std::map<std::string,AnimationTexture*> animation_map;
 };
 
 class Square : public Object{
